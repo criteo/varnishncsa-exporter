@@ -3,9 +3,9 @@ before:
     - go mod tidy
 
 builds:
-  - id: example
-    binary: example
-    main: ./cmd/example
+  - id: varnishncsa-exporter
+    binary: varnishncsa-exporter
+    main: ./cmd/varnishncsa-exporter
     env:
       - CGO_ENABLED=0
     goos:
