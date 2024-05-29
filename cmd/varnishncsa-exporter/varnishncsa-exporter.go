@@ -143,6 +143,9 @@ func main() {
 			log.Info("Starting prometheus server on ", httpAddressPort)
 			router := httprouter.New()
 			router.Handler("GET", "/metrics", promhttp.Handler())
+			router.GET("/health", func(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
+				w.WriteHeader(http.StatusOK)
+			})
 			server := &http.Server{
 				Addr:              httpAddressPort,
 				ReadHeaderTimeout: 20 * time.Second,
