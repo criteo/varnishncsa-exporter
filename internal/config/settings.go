@@ -1,7 +1,6 @@
 package config
 
 var (
-	Version            = "0.1"
 	Binary             = "/usr/bin/varnishncsa"
 	WorkingDir         = "/run/varnish/"
 	PrometheusLabels   = "{\"X-Real-Host\": \"host\", \"X-Frontend-Id\": \"frontend\"}"

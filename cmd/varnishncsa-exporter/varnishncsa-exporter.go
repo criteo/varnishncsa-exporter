@@ -12,13 +12,22 @@ import (
 	"github.com/criteo/varnishncsa-exporter/internal/config"
 	"github.com/criteo/varnishncsa-exporter/lib/command"
 	"github.com/criteo/varnishncsa-exporter/lib/prometheus"
-	"github.com/criteo/varnishncsa-exporter/lib/utils"
 	"github.com/julienschmidt/httprouter"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/urfave/cli/v2"
 
 	log "github.com/sirupsen/logrus"
 )
+
+var (
+	version = "unknown"
+	commit  = "unknown"
+	date    = "unknown"
+)
+
+func versionGet() string {
+	return fmt.Sprintf("Version: %s - Commit: %s - Date: %s", version, commit, date)
+}
 
 func main() {
 	app := &cli.App{
@@ -107,7 +116,7 @@ func main() {
 		},
 		Action: func(ctx *cli.Context) error {
 			if ctx.Bool("version") {
-				return cli.Exit(utils.VersionGet(), 0)
+				return cli.Exit(versionGet(), 0)
 			}
 			if ctx.Bool("debug") {
 				log.SetLevel(log.DebugLevel)
@@ -127,6 +136,7 @@ func main() {
 
 			var wg sync.WaitGroup
 			wg.Add(1)
+			log.Info(versionGet())
 			go command.RunCommand(ctx.String("binary"), []string{"-n", ctx.String("directory"), "-F", ctx.String("format")}, counters, prometheusLabels, true, &wg)
 
 			httpAddressPort := fmt.Sprintf("%s:%d", ctx.String("httpd_address"), ctx.Int("httpd_port"))
