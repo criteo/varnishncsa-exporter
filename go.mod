@@ -1,6 +1,6 @@
 module github.com/criteo/varnishncsa-exporter
 
-go 1.21
+go 1.22
 
 require (
 	github.com/julienschmidt/httprouter v1.3.0
