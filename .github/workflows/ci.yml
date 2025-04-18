@@ -5,21 +5,22 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     name: "Lint and test"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v5
       with:
-        go-version: "1.22"
+        go-version: "1.23"
 
     - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v3
+      uses: golangci/golangci-lint-action@v4
 
     - name: Test
       run: go test -v ./...
@@ -30,14 +31,19 @@ jobs:
   commitlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Install required dependencies
         run: |
           sudo apt install -y git curl
-          curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-          sudo DEBIAN_FRONTEND=noninteractive apt install -y nodejs
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/refs/heads/master/nvm.sh | bash
+          export NVM_DIR="$HOME/.nvm" \
+            && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+            && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" \
+            && nvm install 20 \
+            && sudo ln -s $(which node) /usr/bin/node \
+            && sudo ln -s $(which npm) /usr/bin/npm
 
       - name: Install commitlint
         run: |
