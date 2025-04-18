@@ -11,15 +11,15 @@ jobs:
     name: "Lint and test"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v5
       with:
         go-version: "1.23"
 
     - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v3
+      uses: golangci/golangci-lint-action@v4
 
     - name: Test
       run: go test -v ./...
@@ -30,7 +30,7 @@ jobs:
   commitlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Install required dependencies

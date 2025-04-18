@@ -81,7 +81,7 @@ func main() {
 					if address == "localhost" {
 						return nil
 					} else if net.ParseIP(address) == nil {
-						return fmt.Errorf(fmt.Sprintf("IP Address: %s - Invalid", address))
+						return fmt.Errorf("IP Address: %s - Invalid", address)
 					}
 					return nil
 				},
@@ -96,7 +96,7 @@ func main() {
 			&cli.IntFlag{
 				Action: func(ctx *cli.Context, port int) error {
 					if port < 1024 || port > 49151 {
-						return fmt.Errorf(fmt.Sprintf("Port: %d - Invalid - 1024 <= port <= 49151", port))
+						return fmt.Errorf("port: %d - Invalid - 1024 <= port <= 49151", port)
 					}
 					return nil
 				},
